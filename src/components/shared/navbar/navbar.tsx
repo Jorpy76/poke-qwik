@@ -21,7 +21,7 @@ export default component$(() => {
 					<li>
 						<a
 							href='https://qwik.dev/docs/components/overview/'
-							target='_blank'
+							target='_blank' rel="noreferrer"
 						>
 							Docs
 						</a>

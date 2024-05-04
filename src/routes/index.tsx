@@ -13,20 +13,23 @@ export default component$(() => {
 
 	return (
 		<>
-			<h1>Hola Qwik</h1>
-			<span class='text-2xl'>Buscador de pokemones</span>
+			<h1 class='mb-4'>Hola Qwik</h1>
+			<h3>Aprendiendo Qwik con Fernando Herrera</h3>
+			<span class='mt-4 text-2xl'>Buscador de pokemones</span>
 			<span class='text-6xl'>{pokemonId}</span>
 
 			<PokemonImage id={pokemonId.value} />
 
 			<div class='mt-4'>
 				<button
+					type='button'
 					onClick$={() => changePokemonId(-1)}
 					class='btn btn-primary mr-4'
 				>
 					Anterior
 				</button>
 				<button
+					type='button'
 					onClick$={() => changePokemonId(1)}
 					class='btn btn-primary '
 				>
