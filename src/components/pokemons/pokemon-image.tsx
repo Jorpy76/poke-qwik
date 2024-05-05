@@ -8,7 +8,7 @@ interface Props {
 }
 
 export const PokemonImage = component$(
-	({ id, size = 200, backImage = false, isVisible = false }: Props) => {
+	({ id, size = 200, backImage = false, isVisible = true }: Props) => {
 		const imageLoaded = useSignal(false);
 
 		useTask$(({ track }) => {
@@ -20,26 +20,37 @@ export const PokemonImage = component$(
 		return (
 			<div
 				class='flex items-center justify-center'
-				style={{ width: `${size}px`, height: `${size}px` }}
+				style={{
+					width: `${size}px`,
+					height: `${size}px`,
+				}}
 			>
 				{!imageLoaded.value && <span>Cargando...</span>}
 				<img
+					width='96'
+					height='96'
 					src={
 						backImage
 							? `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${id}.png`
 							: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`
 					}
 					alt='Pokemon Sprite'
-					style={{ width: `${size}px`, height: `${size}px` }}
+					style={{
+						width: `${size}px`,
+						display: imageLoaded.value ? 'block' : 'none',
+					}}
 					onLoad$={() => {
 						// setTimeout(() => {
 						imageLoaded.value = true;
 						// }, 1000);
 					}}
-          class={[{
-            'hidden': !imageLoaded.value,
-            'brightness-0': isVisible
-          }, 'transition-all']}
+					class={[
+						{
+							hidden: !imageLoaded.value,
+							'brightness-0': isVisible,
+						},
+						'transition-all',
+					]}
 				/>
 			</div>
 		);
