@@ -9,7 +9,9 @@ interface Props {
 
 export const PokemonImage = component$(
 	({ id, size = 200, backImage = false, isVisible = true }: Props) => {
+
 		const imageLoaded = useSignal(false);
+		const imageSize = 200
 
 		useTask$(({ track }) => {
 			// useTask$ se utiliza para disparar efectos secundarios. track es una función que se ejecuta cuando cambia un valor.
@@ -21,8 +23,8 @@ export const PokemonImage = component$(
 			<div
 				class='flex items-center justify-center'
 				style={{
-					width: `${size}px`,
-					height: `${size}px`,
+					width: `${imageSize}px`,
+					height: `${imageSize}px`,
 				}}
 			>
 				{!imageLoaded.value && <span>Cargando...</span>}
@@ -34,8 +36,8 @@ export const PokemonImage = component$(
 					}
 					alt='Pokemon Sprite'
 					style={{
-						width: `${size}px`,
-						height: `${size}px`,
+						width: '200px',
+						height: '200px',
 
 						display: imageLoaded.value ? 'block' : 'none',
 					}}
@@ -51,6 +53,8 @@ export const PokemonImage = component$(
 						},
 						'transition-all',
 					]}
+					width={imageSize}
+					height={size}
 				/>
 			</div>
 		);
