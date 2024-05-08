@@ -1,9 +1,16 @@
-import { component$ } from '@builder.io/qwik';
-import { type DocumentHead, Link, routeLoader$, useLocation } from '@builder.io/qwik-city';
+import { component$, useComputed$ } from '@builder.io/qwik';
+import {
+	type DocumentHead,
+	Link,
+	routeLoader$,
+	useLocation,
+} from '@builder.io/qwik-city';
 import type { PokemonListResponse, BasicPokemonInfo } from '~/interfaces';
 
 export const usePokemonList = routeLoader$<BasicPokemonInfo[]>(async () => {
-	const resp = await fetch('https://pokeapi.co/api/v2/pokemon?limit=10&offset=20');
+	const resp = await fetch(
+		'https://pokeapi.co/api/v2/pokemon?limit=10&offset=20',
+	);
 	const data = (await resp.json()) as PokemonListResponse;
 
 	console.log(data);
@@ -13,31 +20,37 @@ export const usePokemonList = routeLoader$<BasicPokemonInfo[]>(async () => {
 export default component$(() => {
 	const pokemons = usePokemonList();
 
-  const location = useLocation();
+	const location = useLocation();
 
-  console.log(location);
-  
-  console.log(location.url.searchParams.get('offset'));
-  
+	//console.log(location);
+	//console.log(location.url.searchParams.get('offset'));
+
+	const currentOffset = useComputed$(() => {
+
+		//const offsetString = location.url.searchParams.get('offset');
+		const offsetString = new URLSearchParams(location.url.search)
+		return offsetString.get('offset')
+
+	});
 
 	return (
 		<>
 			<div class='flex flex-col'>
 				<span class=' my-5 text-5xl'>Status</span>
-				<span>Págima actual: xxxx</span>
+				<span>Offset: {currentOffset}</span>
 				<span>Está cargando la página: xxxx</span>
 			</div>
 
 			<div class='mt-10'>
 				<Link
-					href={'/pokemons/list-srr/?offset=10'}
+					href={'/pokemons/list-ssr/?offset=10'}
 					class='btn btn-primary mr-2'
 				>
 					Anteriores
 				</Link>
 
 				<Link
-					href={'/pokemons/list-srr/?offset=20'}
+					href={'/pokemons/list-ssr/?offset=20'}
 					class='btn btn-primary mr-2'
 				>
 					Siguientes
