@@ -1,60 +1,69 @@
 import { component$ } from '@builder.io/qwik';
-import  { type DocumentHead, Link, routeLoader$ } from '@builder.io/qwik-city';
+import { type DocumentHead, Link, routeLoader$, useLocation } from '@builder.io/qwik-city';
+import type { PokemonListResponse, BasicPokemonInfo } from '~/interfaces';
 
-export const usePokemonList = routeLoader$(async () => {
+export const usePokemonList = routeLoader$<BasicPokemonInfo[]>(async () => {
+	const resp = await fetch('https://pokeapi.co/api/v2/pokemon?limit=10&offset=20');
+	const data = (await resp.json()) as PokemonListResponse;
 
-  const resp = await fetch('https://pokeapi.co/api/v2/pokemon?limit=10&offset=10');
-  const data = await resp.json();
-
-  console.log(data)
-  return data
-  
-})
+	console.log(data);
+	return data.results;
+});
 
 export default component$(() => {
+	const pokemons = usePokemonList();
 
-  const pokemonResp = usePokemonList();
+  const location = useLocation();
 
-  return (
-    <>
-    <div class='flex flex-col'>
-      <span class=' my-5 text-5xl'>Status</span>
-      <span>Págima actual: xxxx</span>
-      <span>Está cargando la página: xxxx</span>
-    </div>
+  console.log(location);
+  
+  console.log(location.url.searchParams.get('offset'));
+  
 
-    <div class='mt-10'>
-      <Link class='btn btn-primary mr-2'>
-      Anteriores
-      </Link>
-      <Link class='btn btn-primary mr-2'>
-      Siguientes
-      </Link>
-    </div>
+	return (
+		<>
+			<div class='flex flex-col'>
+				<span class=' my-5 text-5xl'>Status</span>
+				<span>Págima actual: xxxx</span>
+				<span>Está cargando la página: xxxx</span>
+			</div>
 
-    <div class='grid grid-cols-6 mt-5'>
-      <span class='m-5 flex flex-col justify center items-center'>Pokemon</span>
-      <span class='m-5 flex flex-col justify center items-center'>Pokemon</span>
-      <span class='m-5 flex flex-col justify center items-center'>Pokemon</span>
-      <span class='m-5 flex flex-col justify center items-center'>Pokemon</span>
-      <span class='m-5 flex flex-col justify center items-center'>Pokemon</span>
-      <span class='m-5 flex flex-col justify center items-center'>Pokemon</span>
-      <span class='m-5 flex flex-col justify center items-center'>Pokemon</span>
-    </div>
+			<div class='mt-10'>
+				<Link
+					href={'/pokemons/list-srr/?offset=10'}
+					class='btn btn-primary mr-2'
+				>
+					Anteriores
+				</Link>
 
-    <div>
-      {JSON.stringify(pokemonResp.value)}
-    </div>
-    </>
-  );
+				<Link
+					href={'/pokemons/list-srr/?offset=20'}
+					class='btn btn-primary mr-2'
+				>
+					Siguientes
+				</Link>
+			</div>
+
+			<div class='grid grid-cols-6 mt-5'>
+				{pokemons.value.map(pokemon => (
+					<div
+						key={pokemon.name}
+						class='m-5 flex flex-col justify center items-center'
+					>
+						<span class='capitalize'>{pokemon.name}</span>
+					</div>
+				))}
+			</div>
+		</>
+	);
 });
 
 export const head: DocumentHead = {
-  title: 'SRR List',
-  meta: [
-    {
-      name: 'description',
-      content: 'Qwik site description',
-    },
-  ],
+	title: 'SRR List',
+	meta: [
+		{
+			name: 'description',
+			content: 'Qwik site description',
+		},
+	],
 };
