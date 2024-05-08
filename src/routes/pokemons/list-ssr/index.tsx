@@ -25,11 +25,11 @@ export default component$(() => {
 	//console.log(location);
 	//console.log(location.url.searchParams.get('offset'));
 
-	const currentOffset = useComputed$(() => {
+	const currentOffset = useComputed$<number>(() => {
 
 		//const offsetString = location.url.searchParams.get('offset');
 		const offsetString = new URLSearchParams(location.url.search)
-		return offsetString.get('offset')
+		return (Number(offsetString.get('offset')) || 0)
 
 	});
 
