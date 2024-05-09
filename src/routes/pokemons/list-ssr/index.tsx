@@ -11,7 +11,7 @@ import type { PokemonListResponse, BasicPokemonInfo } from '~/interfaces';
 export const usePokemonList = routeLoader$<BasicPokemonInfo[]>(
 	async ({ pathname, redirect, query }) => {
 		const offset = Number(query.get('offset')) || 0;
-		if (offset < 0) throw redirect(301, pathname);
+		if (offset < 0 || Number.isNaN(offset)) throw redirect(301, pathname);
 		const resp = await fetch(
 			`https://pokeapi.co/api/v1/pokemon?limit=10&offset=${offset}`,
 		);
@@ -34,7 +34,7 @@ export default component$(() => {
 			<div class='flex flex-col'>
 				<span class=' my-5 text-5xl'>Status</span>
 				<span>Offset: {currentOffset}</span>
-				<span>Está cargando la página: xxxx</span>
+				<span>Está cargando la página: { location.isNavigating ? 'Si' : 'No'}</span>
 			</div>
 
 			<div class='mt-10'>
