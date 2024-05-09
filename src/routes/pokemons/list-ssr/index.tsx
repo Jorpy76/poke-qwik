@@ -4,33 +4,29 @@ import {
 	Link,
 	routeLoader$,
 	useLocation,
+	type RequestHandler,
 } from '@builder.io/qwik-city';
 import type { PokemonListResponse, BasicPokemonInfo } from '~/interfaces';
 
-export const usePokemonList = routeLoader$<BasicPokemonInfo[]>(async () => {
-	const resp = await fetch(
-		'https://pokeapi.co/api/v2/pokemon?limit=10&offset=20',
-	);
-	const data = (await resp.json()) as PokemonListResponse;
-
-	console.log(data);
-	return data.results;
-});
+export const usePokemonList = routeLoader$<BasicPokemonInfo[]>(
+	async ({ pathname, redirect, query }) => {
+		const offset = Number(query.get('offset')) || 0;
+		if (offset < 0) throw redirect(301, pathname);
+		const resp = await fetch(
+			`https://pokeapi.co/api/v1/pokemon?limit=10&offset=${offset}`,
+		);
+		const data = (await resp.json()) as PokemonListResponse;
+		return data.results;
+	},
+);
 
 export default component$(() => {
 	const pokemons = usePokemonList();
-
 	const location = useLocation();
 
-	//console.log(location);
-	//console.log(location.url.searchParams.get('offset'));
-
 	const currentOffset = useComputed$<number>(() => {
-
-		//const offsetString = location.url.searchParams.get('offset');
-		const offsetString = new URLSearchParams(location.url.search)
-		return (Number(offsetString.get('offset')) || 0)
-
+		const offsetString = new URLSearchParams(location.url.search);
+		return Number(offsetString.get('offset')) || 0;
 	});
 
 	return (
@@ -43,14 +39,14 @@ export default component$(() => {
 
 			<div class='mt-10'>
 				<Link
-					href={'/pokemons/list-ssr/?offset=10'}
+					href={`/pokemons/list-ssr/?offset=${currentOffset.value - 10}`}
 					class='btn btn-primary mr-2'
 				>
 					Anteriores
 				</Link>
 
 				<Link
-					href={'/pokemons/list-ssr/?offset=20'}
+					href={`/pokemons/list-ssr/?offset=${currentOffset.value + 10}`}
 					class='btn btn-primary mr-2'
 				>
 					Siguientes
