@@ -4,7 +4,6 @@ import {
 	Link,
 	routeLoader$,
 	useLocation,
-	type RequestHandler,
 } from '@builder.io/qwik-city';
 import type { PokemonListResponse, BasicPokemonInfo } from '~/interfaces';
 
@@ -34,7 +33,9 @@ export default component$(() => {
 			<div class='flex flex-col'>
 				<span class=' my-5 text-5xl'>Status</span>
 				<span>Offset: {currentOffset}</span>
-				<span>Está cargando la página: { location.isNavigating ? 'Si' : 'No'}</span>
+				<span>
+					Está cargando la página: {location.isNavigating ? 'Si' : 'No'}
+				</span>
 			</div>
 
 			<div class='mt-10'>
