@@ -5,17 +5,23 @@ import {
 	routeLoader$,
 	useLocation,
 } from '@builder.io/qwik-city';
-import type { PokemonListResponse, BasicPokemonInfo } from '~/interfaces';
 
-export const usePokemonList = routeLoader$<BasicPokemonInfo[]>(
+import { PokemonImage } from '~/components/pokemons/pokemon-image';
+import { getSmallPokemons } from '~/helpers/get-pokemons';
+import type { SmallPokemon } from '~/interfaces';
+
+export const usePokemonList = routeLoader$<SmallPokemon[]>(
 	async ({ pathname, redirect, query }) => {
 		const offset = Number(query.get('offset')) || 0;
 		if (offset < 0 || Number.isNaN(offset)) throw redirect(301, pathname);
-		const resp = await fetch(
-			`https://pokeapi.co/api/v1/pokemon?limit=10&offset=${offset}`,
-		);
-		const data = (await resp.json()) as PokemonListResponse;
-		return data.results;
+
+		return getSmallPokemons(offset);
+
+		// const resp = await fetch(
+		// 	`https://pokeapi.co/api/v1/pokemon?limit=10&offset=${offset}`,
+		// );
+		// const data = (await resp.json()) as PokemonListResponse;
+		// return data.results;
 	},
 );
 
@@ -55,12 +61,13 @@ export default component$(() => {
 			</div>
 
 			<div class='grid grid-cols-6 mt-5'>
-				{pokemons.value.map(pokemon => (
+				{pokemons.value.map(({ name, id }) => (
 					<div
-						key={pokemon.name}
+						key={name}
 						class='m-5 flex flex-col justify center items-center'
 					>
-						<span class='capitalize'>{pokemon.name}</span>
+						<PokemonImage id={id} />
+						<span class='capitalize'>{name}</span>
 					</div>
 				))}
 			</div>

@@ -10,8 +10,11 @@ export const getSmallPokemons = async (
 	const data = (await resp.json()) as PokemonListResponse;
 
 	return data.results.map(({ name, url }) => {
+
 		const segments = url.split('/');
-		const id = segments.at(-1)!;
+    // console.log(segments);
+    
+		const id = segments.at(-2)!;
 
 		return {id,name}
 	});
