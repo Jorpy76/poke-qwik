@@ -37,6 +37,8 @@ export const PokemonProvider = component$(() => {
 		//NOTE: leer del local storage
 
 		if (localStorage.getItem('pokemon-game')) {
+      console.log(localStorage.getItem('pokemon-game'));
+      
 			const {
         isPokemonVisible = true,
         pokemonId = 4,
