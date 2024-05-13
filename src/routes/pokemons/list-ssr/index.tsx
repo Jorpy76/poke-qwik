@@ -75,7 +75,8 @@ export default component$(() => {
 			</div>
 
       <Modal>
-        <span>Hola mUndo</span>
+        <span>Hola Mundo</span>
+				<PokemonImage id={4} />
 
       </Modal>
 		</>

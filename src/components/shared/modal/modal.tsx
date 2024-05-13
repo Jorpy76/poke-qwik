@@ -1,4 +1,4 @@
-import { component$, useStylesScoped$ } from '@builder.io/qwik';
+import { Slot, component$, useStylesScoped$ } from '@builder.io/qwik';
 import ModalStyles from './modal.css?inline';
 
 export const Modal = component$( () => {
@@ -16,7 +16,7 @@ export const Modal = component$( () => {
 
                     <div class="mt-2 px-7 py-3">
                         <div class="modal-content-text">
-                            Lorem ipsum dolor sit amet consectetur adipisicing elit. Molestias nesciunt nihil similique veniam officiis fuga minus.
+                        <Slot />
                         </div>
                     </div>
 
@@ -24,6 +24,7 @@ export const Modal = component$( () => {
                     {/* Botton */}
                     <div class="items-center px-4 py-3">
                         <button
+                        type='button'
                             id="ok-btn"
                             class="modal-button"
                         >
