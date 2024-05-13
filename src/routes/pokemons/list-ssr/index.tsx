@@ -6,7 +6,9 @@ import {
 	useLocation,
 } from '@builder.io/qwik-city';
 
+
 import { PokemonImage } from '~/components/pokemons/pokemon-image';
+import { Modal } from '~/components/shared';
 import { getSmallPokemons } from '~/helpers/get-pokemons';
 import type { SmallPokemon } from '~/interfaces';
 
@@ -71,6 +73,11 @@ export default component$(() => {
 					</div>
 				))}
 			</div>
+
+      <Modal>
+        <span>Hola mUndo</span>
+
+      </Modal>
 		</>
 	);
 });
