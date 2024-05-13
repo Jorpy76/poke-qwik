@@ -1,8 +1,8 @@
 import type { PokemonListResponse, SmallPokemon } from '../interfaces';
 
 export const getSmallPokemons = async (
-	offset: number = 0,
-	limit: number = 10,
+	offset  = 0,
+	limit = 10,
 ): Promise<SmallPokemon[]> => {
 	const resp = await fetch(
 		`https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`,
@@ -12,9 +12,7 @@ export const getSmallPokemons = async (
 	return data.results.map(({ name, url }) => {
 
 		const segments = url.split('/');
-    // console.log(segments);
-    
-		const id = segments.at(-2)!;
+		const id = segments.at(-1)!;
 
 		return {id,name}
 	});
