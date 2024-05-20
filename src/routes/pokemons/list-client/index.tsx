@@ -21,16 +21,14 @@ import { PokemonListContext } from '~/context';
 // }
 
 export default component$(() => {
-   
-  // Cambiar este Store
+	// Cambiar este Store
 
-  const pokemonState = useContext(PokemonListContext )
-    
-  
+	const pokemonState = useContext(PokemonListContext);
+
 	// const pokemonState = useStore<PokemonPageState>({
 	// 	currentPage: 0,
 	// 	pokemons: [],
- //    isLoading: false
+	//    isLoading: false
 	// });
 
 	// useVisibleTask$(async ({track}) => {
@@ -44,24 +42,26 @@ export default component$(() => {
 	useTask$(async ({ track }) => {
 		track(() => pokemonState.currentPage);
 
-    // pokemonState.isLoading = true;
+		// pokemonState.isLoading = true;
 
 		const pokemons = await getSmallPokemons(pokemonState.currentPage * 10, 30);
 		pokemonState.pokemons = [...pokemonState.pokemons, ...pokemons];
 
-    pokemonState.isLoading = false;
+		pokemonState.isLoading = false;
 	});
 
-	useOnDocument('scroll',$(() => {
-    const maxScroll = document.body.scrollHeight
-    const currentScroll = window.scrollY + window.innerHeight
-  
-    if ((currentScroll + 200) >= maxScroll && !pokemonState.isLoading) {
-      pokemonState.isLoading = true
-      pokemonState.currentPage++
-    }
+	useOnDocument(
+		'scroll',
+		$(() => {
+			const maxScroll = document.body.scrollHeight;
+			const currentScroll = window.scrollY + window.innerHeight;
 
-		}));
+			if (currentScroll + 200 >= maxScroll && !pokemonState.isLoading) {
+				pokemonState.isLoading = true;
+				pokemonState.currentPage++;
+			}
+		}),
+	);
 
 	return (
 		<>

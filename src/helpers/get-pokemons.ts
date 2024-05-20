@@ -1,7 +1,7 @@
 import type { PokemonListResponse, SmallPokemon } from '../interfaces';
 
 export const getSmallPokemons = async (
-	offset  = 0,
+	offset = 0,
 	limit = 10,
 ): Promise<SmallPokemon[]> => {
 	const resp = await fetch(
@@ -10,10 +10,10 @@ export const getSmallPokemons = async (
 	const data = (await resp.json()) as PokemonListResponse;
 
 	return data.results.map(({ name, url }) => {
-
 		const segments = url.split('/');
-		const id = segments.at(-1)!;
+		// biome-ignore lint/style/noNonNullAssertion: <explanation>
+		const id = segments.at(-2)!;
 
-		return {id,name}
+		return { id, name };
 	});
 };

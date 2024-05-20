@@ -43,20 +43,21 @@ export const PokemonImage = component$(
 					alt='Pokemon Sprite'
 					style={{
 						width: '200px',
-						height: '200px',
 
-						display: imageLoaded.value ? 'block' : 'none',
+						height: '200px',
 					}}
 					onLoad$={() => {
 						// setTimeout(() => {
+
 						imageLoaded.value = true;
+
 						// }, 1000);
 					}}
 					class={[
 						{
-							hidden: !imageLoaded.value,
 							'brightness-0': !isVisible,
 						},
+
 						'transition-all',
 					]}
 					width={imageSize}

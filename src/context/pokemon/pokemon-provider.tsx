@@ -4,7 +4,7 @@ import {
 	useContextProvider,
 	useStore,
 	useVisibleTask$,
-  useTask$,
+	useTask$,
 } from '@builder.io/qwik';
 
 import {
@@ -37,17 +37,17 @@ export const PokemonProvider = component$(() => {
 		//NOTE: leer del local storage
 
 		if (localStorage.getItem('pokemon-game')) {
-      console.log(localStorage.getItem('pokemon-game'));
-      
-			const {
-        isPokemonVisible = true,
-        pokemonId = 4,
-        showBackImage = false,
-      }  = JSON.parse(localStorage.getItem('pokemon-game')!) as PokemonGameState;
+			console.log(localStorage.getItem('pokemon-game'));
 
-      pokemonGame.isPokemonVisible = isPokemonVisible;
-      pokemonGame.pokemonId = pokemonId;
-      pokemonGame.showBackImage = showBackImage;
+			const {
+				isPokemonVisible = true,
+				pokemonId = 4,
+				showBackImage = false,
+			} = JSON.parse(localStorage.getItem('pokemon-game')!) as PokemonGameState;
+
+			pokemonGame.isPokemonVisible = isPokemonVisible;
+			pokemonGame.pokemonId = pokemonId;
+			pokemonGame.showBackImage = showBackImage;
 		}
 	});
 

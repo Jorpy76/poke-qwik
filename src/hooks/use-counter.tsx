@@ -1,20 +1,18 @@
-import {$, useSignal, useComputed$ } from '@builder.io/qwik';
+import { $, useSignal, useComputed$ } from '@builder.io/qwik';
 
 export const useCounter = (initialValue: number) => {
 	const counter = useSignal(initialValue);
 
 	const increment = $(() => {
-		counter.value++
+		counter.value++;
 	});
 
 	const decrease = $(() => {
-		counter.value--
+		counter.value--;
 	});
-   return {
-    counter: useComputed$(() => counter.value),
-    increment:increment,
-    decrease:decrease
-  }
-
-  
+	return {
+		counter: useComputed$(() => counter.value),
+		increment: increment,
+		decrease: decrease,
+	};
 };
