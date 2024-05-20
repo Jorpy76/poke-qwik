@@ -37,7 +37,7 @@ export const PokemonImage = component$(
 					height: `${imageSize}px`,
 				}}
 			>
-				{!imageLoaded.value && <span>Cargando...</span>}
+				{!imageLoaded.value }
 				<img
 					src={imageUrl.value}
 					alt='Pokemon Sprite'

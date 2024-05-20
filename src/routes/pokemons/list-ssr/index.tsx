@@ -74,8 +74,10 @@ export default component$(() => {
 			</div>
 
 			<Modal>
+				<div q:slot='title'>Nombre del Pokemon</div>
 				<span>Hola Mundo</span>
-				<PokemonImage id={4} />
+				<PokemonImage id='1' />
+
 			</Modal>
 		</>
 	);
